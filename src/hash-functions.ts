@@ -29,8 +29,8 @@ export function joaat(str: string): number {
  * @param str - The input string
  * @returns The Jenkins's one-at-a-time hash of the lowercase version of `str`
  */
-export function joaatLowerCase(text: string): number {
-    return joaat(text.toLowerCase());
+export function joaatLowerCase(str: string): number {
+    return joaat(str.toLowerCase());
 }
 
 /**
@@ -41,6 +41,6 @@ export function joaatLowerCase(text: string): number {
  * @param str - The input string
  * @returns The Jenkins's one-at-a-time hash of the uppercase version of `str`
  */
-export function joaatUpperCase(text: string): number {
-    return joaat(text.toUpperCase());
+export function joaatUpperCase(str: string): number {
+    return joaat(str.toUpperCase());
 }
