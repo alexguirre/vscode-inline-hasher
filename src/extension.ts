@@ -7,7 +7,7 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.commands.registerCommand('inlineHash.joaat', joaatCallback),
 		vscode.commands.registerCommand('inlineHash.joaatLowerCase', joaatLowerCaseCallback),
 		vscode.commands.registerCommand('inlineHash.joaatUpperCase', joaatUpperCaseCallback),
-	]
+	];
 
 	commandList.forEach(d => context.subscriptions.push(d));
 }
@@ -25,7 +25,7 @@ function hashCallback(hashFunc: HashFunction) {
 	if (!textEditor) {
 		return;
 	}
-	
+
 	const selection = textEditor.selection;
 	if (selection.isEmpty) {
 		return;
@@ -33,7 +33,7 @@ function hashCallback(hashFunc: HashFunction) {
 
 	const lineStart = selection.start.line;
 	const lineEnd = selection.end.line;
-	const newLines: string[] = []
+	const newLines: string[] = [];
 	for (let i = lineStart; i <= lineEnd; i++) {
 		const line = textEditor.document.lineAt(i).text;
 

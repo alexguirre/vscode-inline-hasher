@@ -8,7 +8,7 @@
  * @returns The Jenkins's one-at-a-time hash of `str`
  */
 export function joaat(str: string): number {
-    
+
     let hash: number = 0;
     for (let index = 0; index < str.length; index++) {
         hash += str.charCodeAt(index);
@@ -29,7 +29,7 @@ export function joaat(str: string): number {
  * @param str - The input string
  * @returns The Jenkins's one-at-a-time hash of the lowercase version of `str`
  */
-export function joaatLowerCase(text: string): number{
+export function joaatLowerCase(text: string): number {
     return joaat(text.toLowerCase());
 }
 
@@ -41,6 +41,6 @@ export function joaatLowerCase(text: string): number{
  * @param str - The input string
  * @returns The Jenkins's one-at-a-time hash of the uppercase version of `str`
  */
-export function joaatUpperCase(text: string): number{
+export function joaatUpperCase(text: string): number {
     return joaat(text.toUpperCase());
 }
