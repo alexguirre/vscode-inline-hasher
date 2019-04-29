@@ -20,14 +20,24 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.test"
+		"onCommand:inlineHash.joaat",
+		"onCommand:inlineHash.joaatLowerCase",
+		"onCommand:inlineHash.joaatUpperCase"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.test",
-				"title": "Test"
+				"command": "inlineHash.joaat",
+				"title": "inline-hash: joaat"
+			},
+			{
+				"command": "inlineHash.joaatLowerCase",
+				"title": "inline-hash: joaat (lowercase)"
+			},
+			{
+				"command": "inlineHash.joaatUpperCase",
+				"title": "inline-hash: joaat (uppercase)"
 			}
 		]
 	},
