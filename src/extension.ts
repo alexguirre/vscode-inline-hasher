@@ -21,28 +21,37 @@ const joaatUpperCaseCallback = () => hashCallback(hash.joaatUpperCase);
 
 type HashFunction = (str: string) => number;
 function hashCallback(hashFunc: HashFunction) {
-	const textEditor = vscode.window.activeTextEditor;
-	if (!textEditor) {
+	const defaultInputStr = "%1 = %2";
+
+	const inputOptions: vscode.InputBoxOptions = {
+		placeHolder: "default: " + defaultInputStr,
+		prompt: "Insert format. `%1` is replaced with the original string and `%2` with the hash."
+	};
+	const input = vscode.window.showInputBox(inputOptions);
+
+	if (!input) {
 		return;
 	}
 
-	const selection = textEditor.selection;
-	if (selection.isEmpty) {
-		return;
-	}
+	input.then((inputStr) => {
+		const textEditor = vscode.window.activeTextEditor;
+		if (!textEditor) {
+			return;
+		}
 
-	const lineStart = selection.start.line;
-	const lineEnd = selection.end.line;
-	const newLines: string[] = [];
-	for (let i = lineStart; i <= lineEnd; i++) {
-		const line = textEditor.document.lineAt(i).text;
+		const selections = textEditor.selections;
+		textEditor.edit(editBuilder => {
+			for (const sel of selections) {
+				if (sel.isEmpty) {
+					continue;
+				}
 
-		const newLine = line + " = 0x" + hashFunc(line).toString(16).toUpperCase();
-		newLines.push(newLine);
-	}
-
-	textEditor.edit(editBuilder => {
-		const range = new vscode.Range(lineStart, 0, lineEnd, textEditor.document.lineAt(lineEnd).text.length);
-		editBuilder.replace(range, newLines.join('\n'));
+				const selText = textEditor.document.getText(sel);
+				const newText = (inputStr ? inputStr : defaultInputStr)
+									.replace(new RegExp("%1", "g"), selText)
+									.replace(new RegExp("%2", "g"), "0x" + hashFunc(selText).toString(16).toUpperCase());
+				editBuilder.replace(sel, newText);
+			}
+		});
 	});
 }
