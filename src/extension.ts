@@ -4,9 +4,9 @@ import * as hash from './hash-functions';
 export function activate(context: vscode.ExtensionContext) {
 
 	const commandList = [
-		vscode.commands.registerCommand('inlineHash.joaat', joaatCallback),
-		vscode.commands.registerCommand('inlineHash.joaatLowerCase', joaatLowerCaseCallback),
-		vscode.commands.registerCommand('inlineHash.joaatUpperCase', joaatUpperCaseCallback),
+		vscode.commands.registerCommand('inlineHasher.joaat', joaatCallback),
+		vscode.commands.registerCommand('inlineHasher.joaatLowerCase', joaatLowerCaseCallback),
+		vscode.commands.registerCommand('inlineHasher.joaatUpperCase', joaatUpperCaseCallback),
 	];
 
 	commandList.forEach(d => context.subscriptions.push(d));

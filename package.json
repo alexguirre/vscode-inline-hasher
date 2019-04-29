@@ -1,6 +1,6 @@
 {
 	"name": "inline-hasher",
-	"displayName": "inline-hasher",
+	"displayName": "Inline Hasher",
 	"description": "",
 	"version": "0.0.1",
 	"license": "MIT",
@@ -20,24 +20,27 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:inlineHash.joaat",
-		"onCommand:inlineHash.joaatLowerCase",
-		"onCommand:inlineHash.joaatUpperCase"
+		"onCommand:inlineHasher.joaat",
+		"onCommand:inlineHasher.joaatLowerCase",
+		"onCommand:inlineHasher.joaatUpperCase"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "inlineHash.joaat",
-				"title": "inline-hash: joaat"
+				"command": "inlineHasher.joaat",
+				"title": "joaat",
+				"category": "Inline Hasher"
 			},
 			{
-				"command": "inlineHash.joaatLowerCase",
-				"title": "inline-hash: joaat (lowercase)"
+				"command": "inlineHasher.joaatLowerCase",
+				"title": "joaat (lowercase)",
+				"category": "Inline Hasher"
 			},
 			{
-				"command": "inlineHash.joaatUpperCase",
-				"title": "inline-hash: joaat (uppercase)"
+				"command": "inlineHasher.joaatUpperCase",
+				"title": "joaat (uppercase)",
+				"category": "Inline Hasher"
 			}
 		]
 	},
