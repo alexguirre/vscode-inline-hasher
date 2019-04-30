@@ -23,7 +23,9 @@
 		"onCommand:inlineHasher.joaat",
 		"onCommand:inlineHasher.joaatLowerCase",
 		"onCommand:inlineHasher.joaatUpperCase",
-		"onCommand:inlineHasher.elf"
+		"onCommand:inlineHasher.elf",
+		"onCommand:inlineHasher.elfLowerCase",
+		"onCommand:inlineHasher.elfUpperCase"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -46,6 +48,16 @@
 			{
 				"command": "inlineHasher.elf",
 				"title": "elf",
+				"category": "Inline Hasher"
+			},
+			{
+				"command": "inlineHasher.elfLowerCase",
+				"title": "elf (lowercase)",
+				"category": "Inline Hasher"
+			},
+			{
+				"command": "inlineHasher.elfUpperCase",
+				"title": "elf (uppercase)",
 				"category": "Inline Hasher"
 			}
 		]

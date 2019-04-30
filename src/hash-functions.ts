@@ -22,30 +22,6 @@ export function joaat(str: string): number {
 }
 
 /**
- * Converts a string to lowercase and returns its Jenkins's one-at-a-time hash.
- * 
- * @remarks https://en.wikipedia.org/wiki/Jenkins_hash_function#one_at_a_time
- * 
- * @param str - The input string
- * @returns The Jenkins's one-at-a-time hash of the lowercase version of `str`
- */
-export function joaatLowerCase(str: string): number {
-    return joaat(str.toLowerCase());
-}
-
-/**
- * Converts a string to uppercase and returns its Jenkins's one-at-a-time hash.
- * 
- * @remarks https://en.wikipedia.org/wiki/Jenkins_hash_function#one_at_a_time
- * 
- * @param str - The input string
- * @returns The Jenkins's one-at-a-time hash of the uppercase version of `str`
- */
-export function joaatUpperCase(str: string): number {
-    return joaat(str.toUpperCase());
-}
-
-/**
  * Returns the ELF hash of a string.
  * 
  * @remarks https://en.wikipedia.org/wiki/PJW_hash_function

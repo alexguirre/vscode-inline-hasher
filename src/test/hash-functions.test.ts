@@ -10,20 +10,6 @@ suite("Hash Functions Tests", function () {
         assert.equal(hash.joaat("TEST"), 0xAD665078);
     });
 
-    test("joaatLowerCase", function () {
-        assert.equal(hash.joaatLowerCase(""), 0x00000000);
-        assert.equal(hash.joaatLowerCase("TesT"), 0x3F75CCC1);
-        assert.equal(hash.joaatLowerCase("test"), 0x3F75CCC1);
-        assert.equal(hash.joaatLowerCase("TEST"), 0x3F75CCC1);
-    });
-
-    test("joaatUpperCase", function () {
-        assert.equal(hash.joaatUpperCase(""), 0x00000000);
-        assert.equal(hash.joaatUpperCase("TesT"), 0xAD665078);
-        assert.equal(hash.joaatUpperCase("test"), 0xAD665078);
-        assert.equal(hash.joaatUpperCase("TEST"), 0xAD665078);
-    });
-
     test("elf", function () {
         assert.equal(hash.elf(""), 0x00000000);
         assert.equal(hash.elf("TesT"), 0x0005AC84);
