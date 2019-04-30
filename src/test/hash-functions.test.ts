@@ -23,4 +23,11 @@ suite("Hash Functions Tests", function () {
         assert.equal(hash.joaatUpperCase("test"), 0xAD665078);
         assert.equal(hash.joaatUpperCase("TEST"), 0xAD665078);
     });
+
+    test("elf", function () {
+        assert.equal(hash.elf(""), 0x00000000);
+        assert.equal(hash.elf("TesT"), 0x0005AC84);
+        assert.equal(hash.elf("test"), 0x0007ACA4);
+        assert.equal(hash.elf("TEST"), 0x00058A84);
+    });
 });

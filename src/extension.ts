@@ -7,6 +7,7 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.commands.registerCommand('inlineHasher.joaat', joaatCallback),
 		vscode.commands.registerCommand('inlineHasher.joaatLowerCase', joaatLowerCaseCallback),
 		vscode.commands.registerCommand('inlineHasher.joaatUpperCase', joaatUpperCaseCallback),
+		vscode.commands.registerCommand('inlineHasher.elf', elfCallback),
 	];
 
 	commandList.forEach(d => context.subscriptions.push(d));
@@ -18,6 +19,7 @@ export function deactivate() { }
 const joaatCallback = () => hashCallback(hash.joaat);
 const joaatLowerCaseCallback = () => hashCallback(hash.joaatLowerCase);
 const joaatUpperCaseCallback = () => hashCallback(hash.joaatUpperCase);
+const elfCallback = () => hashCallback(hash.elf);
 
 type HashFunction = (str: string) => number;
 function hashCallback(hashFunc: HashFunction) {

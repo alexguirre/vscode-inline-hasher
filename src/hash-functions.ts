@@ -44,3 +44,25 @@ export function joaatLowerCase(str: string): number {
 export function joaatUpperCase(str: string): number {
     return joaat(str.toUpperCase());
 }
+
+/**
+ * Returns the ELF hash of a string.
+ * 
+ * @remarks https://en.wikipedia.org/wiki/PJW_hash_function
+ * 
+ * @param str - The input string
+ * @returns The ELF hash of `str`
+ */
+export function elf(str: string): number {
+    let hash: number = 0;
+    let high: number = 0;
+    for (let index = 0; index < str.length; index++) {
+        hash = (hash << 4) + str.charCodeAt(index);
+        high = hash & 0xF0000000;
+        if (high !== 0) {
+            hash ^= high >>> 24;
+        }
+        hash &= ~high;
+    }
+    return (hash >>> 0); // convert to unsigned
+}

@@ -22,7 +22,8 @@
 	"activationEvents": [
 		"onCommand:inlineHasher.joaat",
 		"onCommand:inlineHasher.joaatLowerCase",
-		"onCommand:inlineHasher.joaatUpperCase"
+		"onCommand:inlineHasher.joaatUpperCase",
+		"onCommand:inlineHasher.elf"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -40,6 +41,11 @@
 			{
 				"command": "inlineHasher.joaatUpperCase",
 				"title": "joaat (uppercase)",
+				"category": "Inline Hasher"
+			},
+			{
+				"command": "inlineHasher.elf",
+				"title": "elf",
 				"category": "Inline Hasher"
 			}
 		]
