@@ -42,3 +42,44 @@ export function elf(str: string): number {
     }
     return (hash >>> 0); // convert to unsigned
 }
+
+const fnv1OffsetBasis: number = 2166136261;
+// const fnv1Prime: number = 16777619;
+
+/**
+ * Returns the FNV-1 hash of a string.
+ * 
+ * @remarks https://en.wikipedia.org/wiki/Fowler–Noll–Vo_hash_function#FNV-1_hash
+ * 
+ * @param str - The input string
+ * @returns The FNV-1 hash of `str`
+ */
+export function fnv1(str: string): number {
+    let hash: number = fnv1OffsetBasis;
+    for (let i = 0; i < str.length; i++) {
+        const ch = str.charCodeAt(i);
+        // source: https://github.com/sindresorhus/fnv1a/blob/7a72892dc41050c89e229ef0a07cdb239b095d0b/index.js#L12
+        hash += (hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
+        hash ^= ch;
+    }
+    return (hash >>> 0);
+}
+
+/**
+ * Returns the FNV-1a hash of a string.
+ * 
+ * @remarks https://en.wikipedia.org/wiki/Fowler–Noll–Vo_hash_function#FNV-1a_hash
+ * 
+ * @param str - The input string
+ * @returns The FNV-1a hash of `str`
+ */
+export function fnv1a(str: string): number {
+    let hash: number = fnv1OffsetBasis;
+    for (let i = 0; i < str.length; i++) {
+        const ch = str.charCodeAt(i);
+        hash ^= ch;
+        // source: https://github.com/sindresorhus/fnv1a/blob/7a72892dc41050c89e229ef0a07cdb239b095d0b/index.js#L12
+        hash += (hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
+    }
+    return (hash >>> 0);
+}

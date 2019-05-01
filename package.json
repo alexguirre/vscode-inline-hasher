@@ -25,7 +25,13 @@
 		"onCommand:inlineHasher.joaatUpperCase",
 		"onCommand:inlineHasher.elf",
 		"onCommand:inlineHasher.elfLowerCase",
-		"onCommand:inlineHasher.elfUpperCase"
+		"onCommand:inlineHasher.elfUpperCase",
+		"onCommand:inlineHasher.fnv1",
+		"onCommand:inlineHasher.fnv1LowerCase",
+		"onCommand:inlineHasher.fnv1UpperCase",
+		"onCommand:inlineHasher.fnv1a",
+		"onCommand:inlineHasher.fnv1aLowerCase",
+		"onCommand:inlineHasher.fnv1aUpperCase"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -58,6 +64,36 @@
 			{
 				"command": "inlineHasher.elfUpperCase",
 				"title": "elf (uppercase)",
+				"category": "Inline Hasher"
+			},
+			{
+				"command": "inlineHasher.fnv1",
+				"title": "fnv-1",
+				"category": "Inline Hasher"
+			},
+			{
+				"command": "inlineHasher.fnv1LowerCase",
+				"title": "fnv-1 (lowercase)",
+				"category": "Inline Hasher"
+			},
+			{
+				"command": "inlineHasher.fnv1UpperCase",
+				"title": "fnv-1 (uppercase)",
+				"category": "Inline Hasher"
+			},
+			{
+				"command": "inlineHasher.fnv1a",
+				"title": "fnv-1a",
+				"category": "Inline Hasher"
+			},
+			{
+				"command": "inlineHasher.fnv1aLowerCase",
+				"title": "fnv-1a (lowercase)",
+				"category": "Inline Hasher"
+			},
+			{
+				"command": "inlineHasher.fnv1aUpperCase",
+				"title": "fnv-1a (uppercase)",
 				"category": "Inline Hasher"
 			}
 		],

@@ -11,6 +11,12 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.commands.registerCommand('inlineHasher.elf', elfCallback),
 		vscode.commands.registerCommand('inlineHasher.elfLowerCase', elfLowerCaseCallback),
 		vscode.commands.registerCommand('inlineHasher.elfUpperCase', elfUpperCaseCallback),
+		vscode.commands.registerCommand('inlineHasher.fnv1', fnv1Callback),
+		vscode.commands.registerCommand('inlineHasher.fnv1LowerCase', fnv1LowerCaseCallback),
+		vscode.commands.registerCommand('inlineHasher.fnv1UpperCase', fnv1UpperCaseCallback),
+		vscode.commands.registerCommand('inlineHasher.fnv1a', fnv1aCallback),
+		vscode.commands.registerCommand('inlineHasher.fnv1aLowerCase', fnv1aLowerCaseCallback),
+		vscode.commands.registerCommand('inlineHasher.fnv1aUpperCase', fnv1aUpperCaseCallback),
 		vscode.workspace.onDidChangeConfiguration(Settings.update),
 	];
 
@@ -28,6 +34,12 @@ const joaatUpperCaseCallback = () => hashCallback(hash.joaat, StringTransform.To
 const elfCallback = () => hashCallback(hash.elf);
 const elfLowerCaseCallback = () => hashCallback(hash.elf, StringTransform.ToLowerCase);
 const elfUpperCaseCallback = () => hashCallback(hash.elf, StringTransform.ToUpperCase);
+const fnv1Callback = () => hashCallback(hash.fnv1);
+const fnv1LowerCaseCallback = () => hashCallback(hash.fnv1, StringTransform.ToLowerCase);
+const fnv1UpperCaseCallback = () => hashCallback(hash.fnv1, StringTransform.ToUpperCase);
+const fnv1aCallback = () => hashCallback(hash.fnv1a);
+const fnv1aLowerCaseCallback = () => hashCallback(hash.fnv1a, StringTransform.ToLowerCase);
+const fnv1aUpperCaseCallback = () => hashCallback(hash.fnv1a, StringTransform.ToUpperCase);
 
 enum StringTransform {
 	None = 0,
