@@ -1,18 +1,22 @@
 import * as vscode from 'vscode';
 import * as hash from './hash-functions';
+import { Settings } from "./settings";
 
 export function activate(context: vscode.ExtensionContext) {
 
-	const commandList = [
+	const subscriptions = [
 		vscode.commands.registerCommand('inlineHasher.joaat', joaatCallback),
 		vscode.commands.registerCommand('inlineHasher.joaatLowerCase', joaatLowerCaseCallback),
 		vscode.commands.registerCommand('inlineHasher.joaatUpperCase', joaatUpperCaseCallback),
 		vscode.commands.registerCommand('inlineHasher.elf', elfCallback),
 		vscode.commands.registerCommand('inlineHasher.elfLowerCase', elfLowerCaseCallback),
 		vscode.commands.registerCommand('inlineHasher.elfUpperCase', elfUpperCaseCallback),
+		vscode.workspace.onDidChangeConfiguration(Settings.update),
 	];
 
-	commandList.forEach(d => context.subscriptions.push(d));
+	subscriptions.forEach(d => context.subscriptions.push(d));
+
+	Settings.update();
 }
 
 export function deactivate() { }
@@ -41,10 +45,8 @@ function transform(str: string, t: StringTransform): string {
 
 type HashFunction = (str: string) => number;
 function hashCallback(hashFunc: HashFunction, strTransform: StringTransform = StringTransform.None) {
-	const defaultInputStr = "%1 = %2";
-
 	const inputOptions: vscode.InputBoxOptions = {
-		placeHolder: "default: " + defaultInputStr,
+		placeHolder: "default: " + Settings.defaultFormat,
 		prompt: "Insert format. `%1` is replaced with the original string and `%2` with the hash."
 	};
 	const input = vscode.window.showInputBox(inputOptions);
@@ -73,7 +75,7 @@ function hashCallback(hashFunc: HashFunction, strTransform: StringTransform = St
 				const selText = textEditor.document.getText(sel);
 				const hash = hashFunc(transform(selText, strTransform));
 				const hashStr = hash.toString(16).toUpperCase();
-				const newText = (inputStr.length !== 0 ? inputStr : defaultInputStr)
+				const newText = (inputStr.length !== 0 ? inputStr : Settings.defaultFormat)
 					.replace(new RegExp("%1", "g"), selText)
 					.replace(new RegExp("%2", "g"), "0x" + hashStr);
 				editBuilder.replace(sel, newText);

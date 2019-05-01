@@ -60,7 +60,18 @@
 				"title": "elf (uppercase)",
 				"category": "Inline Hasher"
 			}
-		]
+		],
+		"configuration": {
+			"title": "Inline Hasher",
+			"properties": {
+				"inlineHasher.defaultFormat": {
+					"markdownDescription": "Format used if no other format is specified when executing a hash command. `%1` is replaced with the original string and `%2` with the hash.",
+					"type": "string",
+					"default": "%1 = %2",
+					"scope": "window"
+				}
+			}
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
