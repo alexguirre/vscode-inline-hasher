@@ -54,6 +54,10 @@ function hashCallback(hashFunc: HashFunction, strTransform: StringTransform = St
 	}
 
 	input.then((inputStr) => {
+		if (inputStr === undefined) {
+			return;
+		}
+
 		const textEditor = vscode.window.activeTextEditor;
 		if (!textEditor) {
 			return;
@@ -69,7 +73,7 @@ function hashCallback(hashFunc: HashFunction, strTransform: StringTransform = St
 				const selText = textEditor.document.getText(sel);
 				const hash = hashFunc(transform(selText, strTransform));
 				const hashStr = hash.toString(16).toUpperCase();
-				const newText = (inputStr ? inputStr : defaultInputStr)
+				const newText = (inputStr.length !== 0 ? inputStr : defaultInputStr)
 					.replace(new RegExp("%1", "g"), selText)
 					.replace(new RegExp("%2", "g"), "0x" + hashStr);
 				editBuilder.replace(sel, newText);
