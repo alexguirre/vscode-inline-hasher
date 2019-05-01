@@ -69,6 +69,12 @@
 					"type": "string",
 					"default": "%1 = %2",
 					"scope": "window"
+				},
+				"inlineHasher.showFormatInputBox": {
+					"markdownDescription": "Show input box to specify the format to use when executing a hash command. If disabled, the format specified in `#inlineHasher.defaultFormat#` is always used.",
+					"type": "boolean",
+					"default": "true",
+					"scope": "window"
 				}
 			}
 		}
