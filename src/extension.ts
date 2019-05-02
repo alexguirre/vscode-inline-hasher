@@ -17,6 +17,7 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.commands.registerCommand('inlineHasher.fnv1a', fnv1aCallback),
 		vscode.commands.registerCommand('inlineHasher.fnv1aLowerCase', fnv1aLowerCaseCallback),
 		vscode.commands.registerCommand('inlineHasher.fnv1aUpperCase', fnv1aUpperCaseCallback),
+		vscode.commands.registerCommand('inlineHasher.multiple', multipleCallback),
 		vscode.workspace.onDidChangeConfiguration(Settings.update),
 	];
 
@@ -56,6 +57,25 @@ function transform(str: string, t: StringTransform): string {
 }
 
 type HashFunction = (str: string) => number;
+
+const hashFunctions: Map<string, HashFunction> = new Map([
+	hash.joaat,
+	hash.elf,
+	hash.fnv1a,
+	hash.fnv1,
+].map(f => [f.name, f]));
+
+const hashFunctionsCommaSeparated: string = (() => {
+	let tmp: string = "";
+	hashFunctions.forEach((_v, k) => {
+		if (tmp.length !== 0) {
+			tmp += ", ";
+		}
+		tmp += k;
+	});
+	return tmp;
+})();
+
 function hashCallback(hashFunc: HashFunction, strTransform: StringTransform = StringTransform.None) {
 	if (Settings.showFormatInputBox) {
 		const inputOptions: vscode.InputBoxOptions = {
@@ -95,8 +115,66 @@ function selectionsToHashes(format: string | undefined, hashFunc: HashFunction, 
 			const hash = hashFunc(transform(selText, selectionTextTransform));
 			const hashStr = hash.toString(16).toUpperCase();
 			const newText = (format.length !== 0 ? format : Settings.defaultFormat)
-				.replace(new RegExp("%1", "g"), selText)
-				.replace(new RegExp("%2", "g"), "0x" + hashStr);
+				.replace(new RegExp("%2", "g"), "0x" + hashStr)
+				.replace(new RegExp("%1", "g"), selText);
+			editBuilder.replace(sel, newText);
+		}
+	});
+}
+
+const multipleDefaultFormat: string = "%1 (joaat: %joaat, fnv-1a: %fnv1a)";
+
+function multipleCallback() {
+	const inputOptions: vscode.InputBoxOptions = {
+		placeHolder: "default: " + multipleDefaultFormat,
+		prompt: "Insert format. `%1` is replaced with the original string and `%<hash-function>` with the hash. Available hash functions: " + hashFunctionsCommaSeparated + "."
+	};
+	const input = vscode.window.showInputBox(inputOptions);
+
+	if (!input) {
+		return;
+	}
+
+	input.then((inputStr) => selectionsToMultipleHashes(inputStr));
+}
+
+function selectionsToMultipleHashes(format: string | undefined) {
+	if (format === undefined) {
+		return;
+	}
+
+	const textEditor = vscode.window.activeTextEditor;
+	if (!textEditor) {
+		return;
+	}
+
+	const selections = textEditor.selections;
+	textEditor.edit(editBuilder => {
+		for (const sel of selections) {
+			if (sel.isEmpty) {
+				continue;
+			}
+
+			const selText = textEditor.document.getText(sel);
+
+			let newText: string = (format.length !== 0 ? format : multipleDefaultFormat);
+			for (const hashFunc of hashFunctions) {
+				let hashCalculated: boolean = false;
+				let hashStr: string;
+
+				newText = newText.replace(new RegExp("%" + hashFunc[0], "g"), (_) => {
+					if (!hashCalculated) {
+						// calculate the hash lazily so it is not calculated if the
+						// hash specifier is not found
+						const hash = hashFunc[1](transform(selText, StringTransform.None));
+						hashStr = "0x" + hash.toString(16).toUpperCase();
+						hashCalculated = true;
+					}
+					return hashStr;
+				});
+			}
+			newText = newText.replace(new RegExp("%1", "g"), selText);
+
 			editBuilder.replace(sel, newText);
 		}
 	});

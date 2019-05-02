@@ -31,7 +31,8 @@
 		"onCommand:inlineHasher.fnv1UpperCase",
 		"onCommand:inlineHasher.fnv1a",
 		"onCommand:inlineHasher.fnv1aLowerCase",
-		"onCommand:inlineHasher.fnv1aUpperCase"
+		"onCommand:inlineHasher.fnv1aUpperCase",
+		"onCommand:inlineHasher.multiple"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -94,6 +95,11 @@
 			{
 				"command": "inlineHasher.fnv1aUpperCase",
 				"title": "fnv-1a (uppercase)",
+				"category": "Inline Hasher"
+			},
+			{
+				"command": "inlineHasher.multiple",
+				"title": "Multiple hashes",
 				"category": "Inline Hasher"
 			}
 		],
