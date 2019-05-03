@@ -121,16 +121,11 @@ function selectionsToHashes(format: string | undefined, hashFunc: HashFunction, 
 	});
 }
 
-const multipleDefaultFormat: string = "%1 joaat(normal: %joaat, lowercase: %joaat_, uppercase: %joaat^)";
-
 function multipleCallback() {
 	const inputOptions: vscode.InputBoxOptions = {
-		placeHolder: "default: " + multipleDefaultFormat,
-		prompt: 
-			"Insert format. `%1` is replaced with the original string and `%<hash-function>[_^]` with the hash. " +
-			"If either suffix, `_` or `^`, is specified, the string will be converted to lowercase or uppercase " +
-			"respectively before calculating the hash. " +
-			"Available hash functions: " + hashFunctionsCommaSeparated + "."
+		placeHolder: "default: " + Settings.multipleDefaultFormat,
+		prompt: "Insert format. `%1` is replaced with the original string and `%<hash-function>[_^]` with the hash. " +
+				"For more information, see the setting `inlineHasher.multipleDefaultFormat`."
 	};
 	const input = vscode.window.showInputBox(inputOptions);
 
@@ -160,7 +155,7 @@ function selectionsToMultipleHashes(format: string | undefined) {
 
 			const selText = textEditor.document.getText(sel);
 
-			let newText: string = (format.length !== 0 ? format : multipleDefaultFormat);
+			let newText: string = (format.length !== 0 ? format : Settings.multipleDefaultFormat);
 			for (const hashFunc of hashFunctions) {
 				let hash: string | undefined;
 				let hashUpperCase: string | undefined;
