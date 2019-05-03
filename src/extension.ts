@@ -56,7 +56,7 @@ function transform(str: string, t: StringTransform): string {
 	}
 }
 
-type HashFunction = (str: string) => number;
+type HashFunction = (str: string) => string;
 
 const hashFunctions: Map<string, HashFunction> = new Map([
 	hash.joaat,
@@ -113,9 +113,8 @@ function selectionsToHashes(format: string | undefined, hashFunc: HashFunction, 
 
 			const selText = textEditor.document.getText(sel);
 			const hash = hashFunc(transform(selText, selectionTextTransform));
-			const hashStr = hash.toString(16).toUpperCase();
 			const newText = (format.length !== 0 ? format : Settings.defaultFormat)
-				.replace(new RegExp("%2", "g"), "0x" + hashStr)
+				.replace(new RegExp("%2", "g"), hash)
 				.replace(new RegExp("%1", "g"), selText);
 			editBuilder.replace(sel, newText);
 		}
@@ -160,17 +159,16 @@ function selectionsToMultipleHashes(format: string | undefined) {
 			let newText: string = (format.length !== 0 ? format : multipleDefaultFormat);
 			for (const hashFunc of hashFunctions) {
 				let hashCalculated: boolean = false;
-				let hashStr: string;
+				let hash: string;
 
 				newText = newText.replace(new RegExp("%" + hashFunc[0], "g"), (_) => {
 					if (!hashCalculated) {
 						// calculate the hash lazily so it is not calculated if the
 						// hash specifier is not found
-						const hash = hashFunc[1](transform(selText, StringTransform.None));
-						hashStr = "0x" + hash.toString(16).toUpperCase();
+						hash = hashFunc[1](transform(selText, StringTransform.None));
 						hashCalculated = true;
 					}
-					return hashStr;
+					return hash;
 				});
 			}
 			newText = newText.replace(new RegExp("%1", "g"), selText);
