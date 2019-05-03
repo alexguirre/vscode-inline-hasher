@@ -121,12 +121,16 @@ function selectionsToHashes(format: string | undefined, hashFunc: HashFunction, 
 	});
 }
 
-const multipleDefaultFormat: string = "%1 (joaat: %joaat, fnv-1a: %fnv1a)";
+const multipleDefaultFormat: string = "%1 joaat(normal: %joaat, lowercase: %joaat_, uppercase: %joaat^)";
 
 function multipleCallback() {
 	const inputOptions: vscode.InputBoxOptions = {
 		placeHolder: "default: " + multipleDefaultFormat,
-		prompt: "Insert format. `%1` is replaced with the original string and `%<hash-function>` with the hash. Available hash functions: " + hashFunctionsCommaSeparated + "."
+		prompt: 
+			"Insert format. `%1` is replaced with the original string and `%<hash-function>[_^]` with the hash. " +
+			"If either suffix, `_` or `^`, is specified, the string will be converted to lowercase or uppercase " +
+			"respectively before calculating the hash. " +
+			"Available hash functions: " + hashFunctionsCommaSeparated + "."
 	};
 	const input = vscode.window.showInputBox(inputOptions);
 
@@ -158,17 +162,19 @@ function selectionsToMultipleHashes(format: string | undefined) {
 
 			let newText: string = (format.length !== 0 ? format : multipleDefaultFormat);
 			for (const hashFunc of hashFunctions) {
-				let hashCalculated: boolean = false;
-				let hash: string;
+				let hash: string | undefined;
+				let hashUpperCase: string | undefined;
+				let hashLowerCase: string | undefined;
 
-				newText = newText.replace(new RegExp("%" + hashFunc[0], "g"), (_) => {
-					if (!hashCalculated) {
-						// calculate the hash lazily so it is not calculated if the
-						// hash specifier is not found
-						hash = hashFunc[1](transform(selText, StringTransform.None));
-						hashCalculated = true;
+				newText = newText.replace(new RegExp("%" + hashFunc[0] + "[_^]?", "g"), (match) => {
+					switch (match.charAt(match.length - 1)) {
+						case "^":
+							return hashUpperCase === undefined ? (hashUpperCase = hashFunc[1](transform(selText, StringTransform.ToUpperCase))) : hashUpperCase;
+						case "_":
+							return hashLowerCase === undefined ? (hashLowerCase = hashFunc[1](transform(selText, StringTransform.ToLowerCase))) : hashLowerCase;
+						default:
+							return hash === undefined ? (hash = hashFunc[1](transform(selText, StringTransform.None))) : hash;
 					}
-					return hash;
 				});
 			}
 			newText = newText.replace(new RegExp("%1", "g"), selText);
