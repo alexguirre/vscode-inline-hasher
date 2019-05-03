@@ -1,8 +1,8 @@
 import * as vscode from 'vscode';
 
 export class Settings {
-    private static _defaultFormat: string = "%1 = %2";
-    private static _showFormatInputBox: boolean = true;
+    private static _defaultFormat: string;
+    private static _showFormatInputBox: boolean;
     private static _multipleDefaultFormat: string;
 
     public static get defaultFormat(): string {
