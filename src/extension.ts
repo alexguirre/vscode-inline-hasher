@@ -17,6 +17,12 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.commands.registerCommand('inlineHasher.fnv1a', fnv1aCallback),
 		vscode.commands.registerCommand('inlineHasher.fnv1aLowerCase', fnv1aLowerCaseCallback),
 		vscode.commands.registerCommand('inlineHasher.fnv1aUpperCase', fnv1aUpperCaseCallback),
+		vscode.commands.registerCommand('inlineHasher.sha256', sha256Callback),
+		vscode.commands.registerCommand('inlineHasher.sha256LowerCase', sha256LowerCaseCallback),
+		vscode.commands.registerCommand('inlineHasher.sha256UpperCase', sha256UpperCaseCallback),
+		vscode.commands.registerCommand('inlineHasher.sha512', sha512Callback),
+		vscode.commands.registerCommand('inlineHasher.sha512LowerCase', sha512LowerCaseCallback),
+		vscode.commands.registerCommand('inlineHasher.sha512UpperCase', sha512UpperCaseCallback),
 		vscode.commands.registerCommand('inlineHasher.multiple', multipleCallback),
 		vscode.workspace.onDidChangeConfiguration(Settings.update),
 	];
@@ -41,6 +47,12 @@ const fnv1UpperCaseCallback = () => hashCallback(hash.fnv1, StringTransform.ToUp
 const fnv1aCallback = () => hashCallback(hash.fnv1a);
 const fnv1aLowerCaseCallback = () => hashCallback(hash.fnv1a, StringTransform.ToLowerCase);
 const fnv1aUpperCaseCallback = () => hashCallback(hash.fnv1a, StringTransform.ToUpperCase);
+const sha256Callback = () => hashCallback(hash.sha256);
+const sha256LowerCaseCallback = () => hashCallback(hash.sha256, StringTransform.ToLowerCase);
+const sha256UpperCaseCallback = () => hashCallback(hash.sha256, StringTransform.ToUpperCase);
+const sha512Callback = () => hashCallback(hash.sha512);
+const sha512LowerCaseCallback = () => hashCallback(hash.sha512, StringTransform.ToLowerCase);
+const sha512UpperCaseCallback = () => hashCallback(hash.sha512, StringTransform.ToUpperCase);
 
 enum StringTransform {
 	None = 0,
@@ -63,6 +75,8 @@ const hashFunctions: Map<string, HashFunction> = new Map([
 	hash.elf,
 	hash.fnv1a,
 	hash.fnv1,
+	hash.sha256,
+	hash.sha512,
 ].map(f => [f.name, f]));
 
 const hashFunctionsCommaSeparated: string = (() => {

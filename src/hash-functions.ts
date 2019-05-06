@@ -1,4 +1,6 @@
 
+import * as hashjs from 'hash.js';
+
 /**
  * Returns the Jenkins's one-at-a-time hash of a string.
  * 
@@ -82,4 +84,28 @@ export function fnv1a(str: string): string {
         hash += (hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
     }
     return "0x" + (hash >>> 0).toString(16).toUpperCase().padStart(8, "0");
+}
+
+/**
+ * Returns the SHA-256 hash of a string.
+ * 
+ * @remarks https://en.wikipedia.org/wiki/SHA-2
+ * 
+ * @param str - The input string
+ * @returns The SHA-256 hash of `str`
+ */
+export function sha256(str: string): string {
+    return hashjs.sha256().update(str).digest("hex");
+}
+
+/**
+ * Returns the SHA-512 hash of a string.
+ * 
+ * @remarks https://en.wikipedia.org/wiki/SHA-2
+ * 
+ * @param str - The input string
+ * @returns The SHA-512 hash of `str`
+ */
+export function sha512(str: string): string {
+    return hashjs.sha512().update(str).digest("hex");
 }

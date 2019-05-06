@@ -32,6 +32,12 @@
 		"onCommand:inlineHasher.fnv1a",
 		"onCommand:inlineHasher.fnv1aLowerCase",
 		"onCommand:inlineHasher.fnv1aUpperCase",
+		"onCommand:inlineHasher.sha256",
+		"onCommand:inlineHasher.sha256LowerCase",
+		"onCommand:inlineHasher.sha256UpperCase",
+		"onCommand:inlineHasher.sha512",
+		"onCommand:inlineHasher.sha512LowerCase",
+		"onCommand:inlineHasher.sha512UpperCase",
 		"onCommand:inlineHasher.multiple"
 	],
 	"main": "./out/extension.js",
@@ -98,6 +104,36 @@
 				"category": "Inline Hasher"
 			},
 			{
+				"command": "inlineHasher.sha256",
+				"title": "sha256",
+				"category": "Inline Hasher"
+			},
+			{
+				"command": "inlineHasher.sha256LowerCase",
+				"title": "sha256 (lowercase)",
+				"category": "Inline Hasher"
+			},
+			{
+				"command": "inlineHasher.sha256UpperCase",
+				"title": "sha256 (uppercase)",
+				"category": "Inline Hasher"
+			},
+			{
+				"command": "inlineHasher.sha512",
+				"title": "sha512",
+				"category": "Inline Hasher"
+			},
+			{
+				"command": "inlineHasher.sha512LowerCase",
+				"title": "sha512 (lowercase)",
+				"category": "Inline Hasher"
+			},
+			{
+				"command": "inlineHasher.sha512UpperCase",
+				"title": "sha512 (uppercase)",
+				"category": "Inline Hasher"
+			},
+			{
 				"command": "inlineHasher.multiple",
 				"title": "Multiple hashes",
 				"category": "Inline Hasher"
@@ -140,5 +176,8 @@
 		"tslint": "^5.12.1",
 		"@types/node": "^10.12.21",
 		"@types/mocha": "^2.2.42"
+	},
+	"dependencies": {
+		"hash.js": "^1.1.7"
 	}
 }
