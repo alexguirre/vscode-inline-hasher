@@ -20,117 +20,15 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:inlineHasher.joaat",
-		"onCommand:inlineHasher.joaatLowerCase",
-		"onCommand:inlineHasher.joaatUpperCase",
-		"onCommand:inlineHasher.elf",
-		"onCommand:inlineHasher.elfLowerCase",
-		"onCommand:inlineHasher.elfUpperCase",
-		"onCommand:inlineHasher.fnv1",
-		"onCommand:inlineHasher.fnv1LowerCase",
-		"onCommand:inlineHasher.fnv1UpperCase",
-		"onCommand:inlineHasher.fnv1a",
-		"onCommand:inlineHasher.fnv1aLowerCase",
-		"onCommand:inlineHasher.fnv1aUpperCase",
-		"onCommand:inlineHasher.sha256",
-		"onCommand:inlineHasher.sha256LowerCase",
-		"onCommand:inlineHasher.sha256UpperCase",
-		"onCommand:inlineHasher.sha512",
-		"onCommand:inlineHasher.sha512LowerCase",
-		"onCommand:inlineHasher.sha512UpperCase",
+		"onCommand:inlineHasher.single",
 		"onCommand:inlineHasher.multiple"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "inlineHasher.joaat",
-				"title": "joaat",
-				"category": "Inline Hasher"
-			},
-			{
-				"command": "inlineHasher.joaatLowerCase",
-				"title": "joaat (lowercase)",
-				"category": "Inline Hasher"
-			},
-			{
-				"command": "inlineHasher.joaatUpperCase",
-				"title": "joaat (uppercase)",
-				"category": "Inline Hasher"
-			},
-			{
-				"command": "inlineHasher.elf",
-				"title": "elf",
-				"category": "Inline Hasher"
-			},
-			{
-				"command": "inlineHasher.elfLowerCase",
-				"title": "elf (lowercase)",
-				"category": "Inline Hasher"
-			},
-			{
-				"command": "inlineHasher.elfUpperCase",
-				"title": "elf (uppercase)",
-				"category": "Inline Hasher"
-			},
-			{
-				"command": "inlineHasher.fnv1",
-				"title": "fnv-1",
-				"category": "Inline Hasher"
-			},
-			{
-				"command": "inlineHasher.fnv1LowerCase",
-				"title": "fnv-1 (lowercase)",
-				"category": "Inline Hasher"
-			},
-			{
-				"command": "inlineHasher.fnv1UpperCase",
-				"title": "fnv-1 (uppercase)",
-				"category": "Inline Hasher"
-			},
-			{
-				"command": "inlineHasher.fnv1a",
-				"title": "fnv-1a",
-				"category": "Inline Hasher"
-			},
-			{
-				"command": "inlineHasher.fnv1aLowerCase",
-				"title": "fnv-1a (lowercase)",
-				"category": "Inline Hasher"
-			},
-			{
-				"command": "inlineHasher.fnv1aUpperCase",
-				"title": "fnv-1a (uppercase)",
-				"category": "Inline Hasher"
-			},
-			{
-				"command": "inlineHasher.sha256",
-				"title": "sha256",
-				"category": "Inline Hasher"
-			},
-			{
-				"command": "inlineHasher.sha256LowerCase",
-				"title": "sha256 (lowercase)",
-				"category": "Inline Hasher"
-			},
-			{
-				"command": "inlineHasher.sha256UpperCase",
-				"title": "sha256 (uppercase)",
-				"category": "Inline Hasher"
-			},
-			{
-				"command": "inlineHasher.sha512",
-				"title": "sha512",
-				"category": "Inline Hasher"
-			},
-			{
-				"command": "inlineHasher.sha512LowerCase",
-				"title": "sha512 (lowercase)",
-				"category": "Inline Hasher"
-			},
-			{
-				"command": "inlineHasher.sha512UpperCase",
-				"title": "sha512 (uppercase)",
+				"command": "inlineHasher.single",
+				"title": "Single hash",
 				"category": "Inline Hasher"
 			},
 			{

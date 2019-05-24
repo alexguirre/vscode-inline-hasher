@@ -5,24 +5,7 @@ import { Settings } from "./settings";
 export function activate(context: vscode.ExtensionContext) {
 
 	const subscriptions = [
-		vscode.commands.registerCommand('inlineHasher.joaat', joaatCallback),
-		vscode.commands.registerCommand('inlineHasher.joaatLowerCase', joaatLowerCaseCallback),
-		vscode.commands.registerCommand('inlineHasher.joaatUpperCase', joaatUpperCaseCallback),
-		vscode.commands.registerCommand('inlineHasher.elf', elfCallback),
-		vscode.commands.registerCommand('inlineHasher.elfLowerCase', elfLowerCaseCallback),
-		vscode.commands.registerCommand('inlineHasher.elfUpperCase', elfUpperCaseCallback),
-		vscode.commands.registerCommand('inlineHasher.fnv1', fnv1Callback),
-		vscode.commands.registerCommand('inlineHasher.fnv1LowerCase', fnv1LowerCaseCallback),
-		vscode.commands.registerCommand('inlineHasher.fnv1UpperCase', fnv1UpperCaseCallback),
-		vscode.commands.registerCommand('inlineHasher.fnv1a', fnv1aCallback),
-		vscode.commands.registerCommand('inlineHasher.fnv1aLowerCase', fnv1aLowerCaseCallback),
-		vscode.commands.registerCommand('inlineHasher.fnv1aUpperCase', fnv1aUpperCaseCallback),
-		vscode.commands.registerCommand('inlineHasher.sha256', sha256Callback),
-		vscode.commands.registerCommand('inlineHasher.sha256LowerCase', sha256LowerCaseCallback),
-		vscode.commands.registerCommand('inlineHasher.sha256UpperCase', sha256UpperCaseCallback),
-		vscode.commands.registerCommand('inlineHasher.sha512', sha512Callback),
-		vscode.commands.registerCommand('inlineHasher.sha512LowerCase', sha512LowerCaseCallback),
-		vscode.commands.registerCommand('inlineHasher.sha512UpperCase', sha512UpperCaseCallback),
+		vscode.commands.registerCommand('inlineHasher.single', singleCallback),
 		vscode.commands.registerCommand('inlineHasher.multiple', multipleCallback),
 		vscode.workspace.onDidChangeConfiguration(Settings.update),
 	];
@@ -33,26 +16,6 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 export function deactivate() { }
-
-
-const joaatCallback = () => hashCallback(hash.joaat);
-const joaatLowerCaseCallback = () => hashCallback(hash.joaat, StringTransform.ToLowerCase);
-const joaatUpperCaseCallback = () => hashCallback(hash.joaat, StringTransform.ToUpperCase);
-const elfCallback = () => hashCallback(hash.elf);
-const elfLowerCaseCallback = () => hashCallback(hash.elf, StringTransform.ToLowerCase);
-const elfUpperCaseCallback = () => hashCallback(hash.elf, StringTransform.ToUpperCase);
-const fnv1Callback = () => hashCallback(hash.fnv1);
-const fnv1LowerCaseCallback = () => hashCallback(hash.fnv1, StringTransform.ToLowerCase);
-const fnv1UpperCaseCallback = () => hashCallback(hash.fnv1, StringTransform.ToUpperCase);
-const fnv1aCallback = () => hashCallback(hash.fnv1a);
-const fnv1aLowerCaseCallback = () => hashCallback(hash.fnv1a, StringTransform.ToLowerCase);
-const fnv1aUpperCaseCallback = () => hashCallback(hash.fnv1a, StringTransform.ToUpperCase);
-const sha256Callback = () => hashCallback(hash.sha256);
-const sha256LowerCaseCallback = () => hashCallback(hash.sha256, StringTransform.ToLowerCase);
-const sha256UpperCaseCallback = () => hashCallback(hash.sha256, StringTransform.ToUpperCase);
-const sha512Callback = () => hashCallback(hash.sha512);
-const sha512LowerCaseCallback = () => hashCallback(hash.sha512, StringTransform.ToLowerCase);
-const sha512UpperCaseCallback = () => hashCallback(hash.sha512, StringTransform.ToUpperCase);
 
 enum StringTransform {
 	None = 0,
@@ -79,19 +42,38 @@ const hashFunctions: Map<string, HashFunction> = new Map([
 	hash.sha512,
 ].map(f => [f.name, f]));
 
-const hashFunctionsCommaSeparated: string = (() => {
-	let tmp: string = "";
-	hashFunctions.forEach((_v, k) => {
-		if (tmp.length !== 0) {
-			tmp += ", ";
-		}
-		tmp += k;
-	});
-	return tmp;
-})();
+function createPickItems(): string[] {
+	let arr: string[] = [];
+	for (const str of hashFunctions.keys()) {
+		arr.push(str);
+		arr.push(str + " (lowercase)");
+		arr.push(str + " (uppercase)");
+	}
+	return arr;
+}
 
-function hashCallback(hashFunc: HashFunction, strTransform: StringTransform = StringTransform.None) {
-	if (Settings.showFormatInputBox) {
+function singleCallback() {
+	if (!vscode.window.activeTextEditor) {
+		vscode.window.showInformationMessage("This command can only be used inside a text editor.");
+		return;
+	}
+
+	const pickItems = createPickItems();
+	const pickOptions: vscode.QuickPickOptions = {
+		placeHolder: "Select hash function...",
+		canPickMany: false,
+	};
+	const pick = vscode.window.showQuickPick(pickItems, pickOptions);
+
+	if (!pick) {
+		return;
+	}
+
+	pick.then((pickStr) => {
+		if (pickStr === undefined) {
+			return;
+		}
+
 		const inputOptions: vscode.InputBoxOptions = {
 			placeHolder: "default: " + Settings.defaultFormat,
 			prompt: "Insert format. `%1` is replaced with the original string and `%2` with the hash."
@@ -102,14 +84,32 @@ function hashCallback(hashFunc: HashFunction, strTransform: StringTransform = St
 			return;
 		}
 
-		input.then((inputStr) => selectionsToHashes(inputStr, hashFunc, strTransform));
-	} else {
-		selectionsToHashes(Settings.defaultFormat, hashFunc, strTransform);
-	}
+		input.then((inputStr) => {
+			if (inputStr === undefined) {
+				return;
+			}
+
+			selectionsToSingleHash(inputStr, pickStr);
+		});
+	});
 }
 
-function selectionsToHashes(format: string | undefined, hashFunc: HashFunction, selectionTextTransform: StringTransform) {
-	if (format === undefined) {
+function selectionsToSingleHash(format: string, hashPick: string) {
+	function transformFromPick(): StringTransform {
+		if (hashPick.endsWith("(lowercase)")) {
+			return StringTransform.ToLowerCase;
+		} else if (hashPick.endsWith("(uppercase)")) {
+			return StringTransform.ToUpperCase;
+		} else {
+			return StringTransform.None;
+		}
+	}
+
+	const hashFuncKey = hashPick.split(" ", 2)[0];
+	const hashFunc = hashFunctions.get(hashFuncKey);
+	const transformType = transformFromPick();	
+
+	if (hashFunc === undefined) {
 		return;
 	}
 
@@ -126,7 +126,7 @@ function selectionsToHashes(format: string | undefined, hashFunc: HashFunction, 
 			}
 
 			const selText = textEditor.document.getText(sel);
-			const hash = hashFunc(transform(selText, selectionTextTransform));
+			const hash = hashFunc(transform(selText, transformType));
 			const newText = (format.length !== 0 ? format : Settings.defaultFormat)
 				.replace(new RegExp("%2", "g"), hash)
 				.replace(new RegExp("%1", "g"), selText);
@@ -136,10 +136,15 @@ function selectionsToHashes(format: string | undefined, hashFunc: HashFunction, 
 }
 
 function multipleCallback() {
+	if (!vscode.window.activeTextEditor) {
+		vscode.window.showInformationMessage("This command can only be used inside a text editor.");
+		return;
+	}
+	
 	const inputOptions: vscode.InputBoxOptions = {
 		placeHolder: "default: " + Settings.multipleDefaultFormat,
 		prompt: "Insert format. `%1` is replaced with the original string and `%<hash-function>[_^]` with the hash. " +
-				"For more information, see the setting `inlineHasher.multipleDefaultFormat`."
+			"For more information, see the setting `inlineHasher.multipleDefaultFormat`."
 	};
 	const input = vscode.window.showInputBox(inputOptions);
 
