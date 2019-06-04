@@ -128,8 +128,8 @@ function selectionsToSingleHash(format: string, hashPick: string) {
 			const selText = textEditor.document.getText(sel);
 			const hash = hashFunc(transform(selText, transformType));
 			const newText = (format.length !== 0 ? format : Settings.defaultFormat)
-				.replace(new RegExp("%2", "g"), hash)
-				.replace(new RegExp("%1", "g"), selText);
+				.replace(new RegExp("(?<!%)%2", "g"), hash)
+				.replace(new RegExp("(?<!%)%1", "g"), selText);
 			editBuilder.replace(sel, newText);
 		}
 	});
@@ -180,7 +180,7 @@ function selectionsToMultipleHashes(format: string | undefined) {
 				let hashUpperCase: string | undefined;
 				let hashLowerCase: string | undefined;
 
-				newText = newText.replace(new RegExp("%" + hashFunc[0] + "[_^]?", "g"), (match) => {
+				newText = newText.replace(new RegExp("(?<!%)%" + hashFunc[0] + "[_^]?", "g"), (match) => {
 					switch (match.charAt(match.length - 1)) {
 						case "^":
 							return hashUpperCase === undefined ? (hashUpperCase = hashFunc[1](transform(selText, StringTransform.ToUpperCase))) : hashUpperCase;
@@ -191,7 +191,7 @@ function selectionsToMultipleHashes(format: string | undefined) {
 					}
 				});
 			}
-			newText = newText.replace(new RegExp("%1", "g"), selText);
+			newText = newText.replace(new RegExp("(?<!%)%1", "g"), selText);
 
 			editBuilder.replace(sel, newText);
 		}
