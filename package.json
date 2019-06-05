@@ -28,32 +28,32 @@
 		"commands": [
 			{
 				"command": "inlineHasher.single",
-				"title": "Single hash",
+				"title": "Replace selection with single hash...",
 				"category": "Inline Hasher"
 			},
 			{
 				"command": "inlineHasher.multiple",
-				"title": "Multiple hashes",
+				"title": "Replace selection with multiple hashes...",
 				"category": "Inline Hasher"
 			}
 		],
 		"configuration": {
 			"title": "Inline Hasher",
 			"properties": {
-				"inlineHasher.defaultFormat": {
-					"markdownDescription": "Format used if no other format is specified when executing a hash command. `%1` is replaced with the original string and `%2` with the hash.",
+				"inlineHasher.singleDefaultFormat": {
+					"markdownDescription": "Format used if no other format is specified when executing the `inlineHasher.single` command. `%1` is replaced with the original string and `%2` with the hash.",
 					"type": "string",
 					"default": "%1 = %2",
 					"scope": "window"
 				},
 				"inlineHasher.showFormatInputBox": {
-					"markdownDescription": "Show input box to specify the format to use when executing a hash command. If disabled, the format specified in `#inlineHasher.defaultFormat#` is always used.",
+					"markdownDescription": "Show input box to specify the format to use when executing the `inlineHasher.single` command. If disabled, the format specified in `#inlineHasher.singleDefaultFormat#` is always used.",
 					"type": "boolean",
 					"default": "true",
 					"scope": "window"
 				},
 				"inlineHasher.multipleDefaultFormat": {
-					"markdownDescription": "Format used if no other format is specified when executing the `Multiple hashes` command. `%1` is replaced with the original string and `%<hash-function>[_^]` with the hash.\nIf either suffix, `_` or `^`, is specified, the string will be converted to lowercase or uppercase respectively before calculating the hash.\n- Available hash functions names:\n  - joaat\n  - elf\n  - fnv1\n  - fnv1a",
+					"markdownDescription": "Format used if no other format is specified when executing the `inlineHasher.multiple` command. `%1` is replaced with the original string and `%<hash-function>[_^]` with the hash.\nIf either suffix, `_` or `^`, is specified, the string will be converted to lowercase or uppercase respectively before calculating the hash.",
 					"type": "string",
 					"default": "%1 joaat(normal: %joaat, lowercase: %joaat_, uppercase: %joaat^)",
 					"scope": "window"

@@ -79,7 +79,7 @@ function singleCallback() {
 		}
 
 		const inputOptions: vscode.InputBoxOptions = {
-			placeHolder: "default: " + Settings.defaultFormat,
+			placeHolder: "default: " + Settings.singleDefaultFormat,
 			prompt: "Insert format. `%1` is replaced with the original string and `%2` with the hash."
 		};
 		const input = vscode.window.showInputBox(inputOptions);
@@ -131,7 +131,7 @@ function selectionsToSingleHash(format: string, hashPick: string) {
 
 			const selText = textEditor.document.getText(sel);
 			const hash = hashFunc(transform(selText, transformType));
-			const newText = (format.length !== 0 ? format : Settings.defaultFormat)
+			const newText = (format.length !== 0 ? format : Settings.singleDefaultFormat)
 				.replace(new RegExp("(?<!%)%2", "g"), hash)
 				.replace(new RegExp("(?<!%)%1", "g"), selText);
 			editBuilder.replace(sel, newText);
