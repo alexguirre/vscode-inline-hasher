@@ -76,6 +76,7 @@
 		"@types/mocha": "^2.2.42"
 	},
 	"dependencies": {
-		"hash.js": "^1.1.7"
+		"hash.js": "^1.1.7",
+		"ts-md5": "^1.2.4"
 	}
 }

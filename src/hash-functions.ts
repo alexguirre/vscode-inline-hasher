@@ -1,5 +1,6 @@
 
 import * as hashjs from 'hash.js';
+import {Md5} from 'ts-md5';
 
 /**
  * Returns the Jenkins's one-at-a-time hash of a string.
@@ -144,4 +145,16 @@ export function sha384(str: string): string {
  */
 export function sha512(str: string): string {
     return hashjs.sha512().update(str).digest("hex");
+}
+
+/**
+ * Returns the MD5 hash of a string.
+ * 
+ * @remarks https://en.wikipedia.org/wiki/MD5
+ * 
+ * @param str - The input string
+ * @returns The MD5 hash of `str`
+ */
+export function md5(str: string): string {
+    return <string>Md5.hashStr(str);
 }
