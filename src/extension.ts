@@ -38,6 +38,7 @@ const hashFunctions: Map<string, HashFunction> = new Map([
 	hash.elf,
 	hash.fnv1a,
 	hash.fnv1,
+	hash.sha1,
 	hash.sha256,
 	hash.sha512,
 ].map(f => [f.name, f]));

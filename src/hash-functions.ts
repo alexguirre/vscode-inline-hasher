@@ -87,6 +87,18 @@ export function fnv1a(str: string): string {
 }
 
 /**
+ * Returns the SHA-1 hash of a string.
+ * 
+ * @remarks https://en.wikipedia.org/wiki/SHA-1
+ * 
+ * @param str - The input string
+ * @returns The SHA-1 hash of `str`
+ */
+export function sha1(str: string): string {
+    return hashjs.sha1().update(str).digest("hex");
+}
+
+/**
  * Returns the SHA-256 hash of a string.
  * 
  * @remarks https://en.wikipedia.org/wiki/SHA-2
