@@ -123,6 +123,18 @@ export function sha256(str: string): string {
 }
 
 /**
+ * Returns the SHA-384 hash of a string.
+ * 
+ * @remarks https://en.wikipedia.org/wiki/SHA-2
+ * 
+ * @param str - The input string
+ * @returns The SHA-384 hash of `str`
+ */
+export function sha384(str: string): string {
+    return hashjs.sha384().update(str).digest("hex");
+}
+
+/**
  * Returns the SHA-512 hash of a string.
  * 
  * @remarks https://en.wikipedia.org/wiki/SHA-2
