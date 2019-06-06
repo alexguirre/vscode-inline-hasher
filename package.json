@@ -1,8 +1,8 @@
 {
 	"name": "inline-hasher",
 	"displayName": "Inline Hasher",
-	"description": "",
-	"version": "0.0.1",
+	"description": "Inserts hashes of the selected text",
+	"version": "1.0.0",
 	"license": "MIT",
 	"publisher": "alexguirre",
 	"homepage": "https://github.com/alexguirre/vscode-inline-hasher",
@@ -13,11 +13,19 @@
 	"bugs": {
 		"url": "https://github.com/alexguirre/vscode-inline-hasher/issues"
 	},
+	"icon": "images/icon.png",
 	"engines": {
 		"vscode": "^1.33.0"
 	},
 	"categories": [
 		"Other"
+	],
+	"keywords": [
+		"hash",
+		"hashing",
+		"replace",
+		"text",
+		"tool"
 	],
 	"activationEvents": [
 		"onCommand:inlineHasher.single",
@@ -41,21 +49,21 @@
 			"title": "Inline Hasher",
 			"properties": {
 				"inlineHasher.singleDefaultFormat": {
-					"markdownDescription": "Format used if no other format is specified when executing the `inlineHasher.single` command. `%1` is replaced with the original string and `%2` with the hash.",
+					"markdownDescription": "Format used if no other format is specified when executing the `Replace selection with single hash...` command. `%1` is replaced with the original string and `%2` with the hash.",
 					"type": "string",
 					"default": "%1 = %2",
 					"scope": "window"
 				},
 				"inlineHasher.showFormatInputBox": {
-					"markdownDescription": "Show input box to specify the format to use when executing the `inlineHasher.single` command. If disabled, the format specified in `#inlineHasher.singleDefaultFormat#` is always used.",
+					"markdownDescription": "Show input box to specify the format to use when executing the `Replace selection with single hash...` command. If disabled, the format specified in `#inlineHasher.singleDefaultFormat#` is always used.",
 					"type": "boolean",
 					"default": "true",
 					"scope": "window"
 				},
 				"inlineHasher.multipleDefaultFormat": {
-					"markdownDescription": "Format used if no other format is specified when executing the `inlineHasher.multiple` command. `%1` is replaced with the original string and `%<hash-function>[_^]` with the hash.\nIf either suffix, `_` or `^`, is specified, the string will be converted to lowercase or uppercase respectively before calculating the hash.",
+					"markdownDescription": "Format used if no other format is specified when executing the `Replace selection with multiple hashes...` command. `%1` is replaced with the original string and `%<hash-function>[_^]` with the hash.\nIf either suffix, `_` or `^`, is specified, the string will be converted to lowercase or uppercase respectively before calculating the hash.",
 					"type": "string",
-					"default": "%1 joaat(normal: %joaat, lowercase: %joaat_, uppercase: %joaat^)",
+					"default": "%1 = %joaat | lowercase:%joaat_ | uppercase:%joaat^",
 					"scope": "window"
 				}
 			}
