@@ -78,23 +78,30 @@ function singleCallback() {
 			return;
 		}
 
-		const inputOptions: vscode.InputBoxOptions = {
-			placeHolder: "default: " + Settings.singleDefaultFormat,
-			prompt: "Insert format. `%1` is replaced with the original string and `%2` with the hash."
-		};
-		const input = vscode.window.showInputBox(inputOptions);
+		if (Settings.showFormatInputBox)
+		{
+			const inputOptions: vscode.InputBoxOptions = {
+				placeHolder: "default: " + Settings.singleDefaultFormat,
+				prompt: "Insert format. `%1` is replaced with the original string and `%2` with the hash."
+			};
+			const input = vscode.window.showInputBox(inputOptions);
 
-		if (!input) {
-			return;
-		}
-
-		input.then((inputStr) => {
-			if (inputStr === undefined) {
+			if (!input) {
 				return;
 			}
 
-			selectionsToSingleHash(inputStr, pickStr);
-		});
+			input.then((inputStr) => {
+				if (inputStr === undefined) {
+					return;
+				}
+
+				selectionsToSingleHash(inputStr, pickStr);
+			});
+		}
+		else
+		{
+			selectionsToSingleHash("", pickStr);
+		}
 	});
 }
 
