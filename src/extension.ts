@@ -2,7 +2,10 @@ import * as vscode from 'vscode';
 import * as hash from './hash-functions';
 import { Settings } from "./settings";
 
+var extContext: vscode.ExtensionContext;
+
 export function activate(context: vscode.ExtensionContext) {
+	extContext = context;
 
 	const subscriptions = [
 		vscode.commands.registerCommand('inlineHasher.single', singleCallback),
@@ -31,6 +34,11 @@ function transform(str: string, t: StringTransform): string {
 	}
 }
 
+enum Persistance {
+	LastUsed = "lastUsed",
+}
+
+
 type HashFunction = (str: string) => string;
 
 const hashFunctions: Map<string, HashFunction> = new Map([
@@ -46,12 +54,12 @@ const hashFunctions: Map<string, HashFunction> = new Map([
 	hash.md5,
 ].map(f => [f.name, f]));
 
-function createPickItems(): string[] {
-	let arr: string[] = [];
+function createPickItems(): vscode.QuickPickItem[] {
+	let arr: vscode.QuickPickItem[] = [];
 	for (const str of hashFunctions.keys()) {
-		arr.push(str);
-		arr.push(str + " (lowercase)");
-		arr.push(str + " (uppercase)");
+		arr.push({ label: str });
+		arr.push({ label: str + " (lowercase)" });
+		arr.push({ label: str + " (uppercase)" });
 	}
 	return arr;
 }
@@ -63,6 +71,17 @@ function singleCallback() {
 	}
 
 	const pickItems = createPickItems();
+	const t = extContext.globalStoragePath;
+	const lastUsed = extContext.globalState.get(Persistance.LastUsed);
+	if (lastUsed !== undefined) {
+		for (let i = 0; i < pickItems.length; i++) {
+			if (pickItems[i].label === lastUsed) {
+				const item = { label: pickItems[i].label, description: "recently used" };
+				pickItems.unshift(item);
+				break;
+			}
+		}
+	}
 	const pickOptions: vscode.QuickPickOptions = {
 		placeHolder: "Select hash function...",
 		canPickMany: false,
@@ -73,11 +92,13 @@ function singleCallback() {
 		return;
 	}
 
-	pick.then((pickStr) => {
-		if (pickStr === undefined) {
+	pick.then(pickedItem => {
+		if (pickedItem === undefined) {
 			return;
 		}
 
+		const hashFunc = pickedItem.label;
+		extContext.globalState.update(Persistance.LastUsed, hashFunc);
 		if (Settings.showFormatInputBox)
 		{
 			const inputOptions: vscode.InputBoxOptions = {
@@ -95,12 +116,12 @@ function singleCallback() {
 					return;
 				}
 
-				selectionsToSingleHash(inputStr, pickStr);
+				selectionsToSingleHash(inputStr, hashFunc);
 			});
 		}
 		else
 		{
-			selectionsToSingleHash("", pickStr);
+			selectionsToSingleHash("", hashFunc);
 		}
 	});
 }
