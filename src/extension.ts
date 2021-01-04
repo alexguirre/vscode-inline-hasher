@@ -71,7 +71,6 @@ function singleCallback() {
 	}
 
 	const pickItems = createPickItems();
-	const t = extContext.globalStoragePath;
 	const lastUsed = extContext.globalState.get(Persistance.LastUsed);
 	if (lastUsed !== undefined) {
 		for (let i = 0; i < pickItems.length; i++) {
