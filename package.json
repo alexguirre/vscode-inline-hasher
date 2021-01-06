@@ -2,7 +2,7 @@
 	"name": "inline-hasher",
 	"displayName": "Inline Hasher",
 	"description": "Inserts hashes of the selected text",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"license": "MIT",
 	"publisher": "alexguirre",
 	"homepage": "https://github.com/alexguirre/vscode-inline-hasher",
